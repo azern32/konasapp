@@ -1,0 +1,24 @@
+CRITICAL - 2022-12-15 01:15:15 --> Undefined variable: akun_rekening
+in APPPATH\Controllers\Rekening.php on line 47.
+ 1 APPPATH\Controllers\Rekening.php(47): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined variable: akun_rekening', 'APPPATH\\Controllers\\Rekening.php', 47, [...])
+ 2 SYSTEMPATH\CodeIgniter.php(927): App\Controllers\Rekening->add('ROOTPATH\\public')
+ 3 SYSTEMPATH\CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Rekening))
+ 4 SYSTEMPATH\CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2022-12-15 01:16:09 --> Undefined variable: akun_rekening
+in APPPATH\Controllers\Rekening.php on line 47.
+ 1 APPPATH\Controllers\Rekening.php(47): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined variable: akun_rekening', 'APPPATH\\Controllers\\Rekening.php', 47, [...])
+ 2 SYSTEMPATH\CodeIgniter.php(927): App\Controllers\Rekening->add('ROOTPATH\\public')
+ 3 SYSTEMPATH\CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Rekening))
+ 4 SYSTEMPATH\CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2022-12-15 18:23:00 --> There is no data to update.
+in SYSTEMPATH\BaseModel.php on line 1598.
+ 1 SYSTEMPATH\BaseModel.php(1598): CodeIgniter\Database\Exceptions\DataException::forEmptyDataset('update')
+ 2 SYSTEMPATH\BaseModel.php(853): CodeIgniter\BaseModel->transformDataToArray([], 'update')
+ 3 SYSTEMPATH\Model.php(693): CodeIgniter\BaseModel->update([...], [])
+ 4 APPPATH\Controllers\Rekening.php(79): CodeIgniter\Model->update('awa', [])
+ 5 SYSTEMPATH\CodeIgniter.php(927): App\Controllers\Rekening->editHutang('awa')
+ 6 SYSTEMPATH\CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Rekening))
+ 7 SYSTEMPATH\CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
