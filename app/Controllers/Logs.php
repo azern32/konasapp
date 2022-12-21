@@ -58,7 +58,54 @@ class Logs extends ResourceController{
     }
     
     public function catat(){
+        $log = new Model_Logs();
+        $log->insert($_POST);
         
+        $this->updateDebitKredit($_POST['akun_sumber'],$_POST['akun_tujuan'],$_POST['nominal']);
+        $this->updateSaldo($_POST['akun_sumber']);
+        $this->updateSaldo($_POST['akun_tujuan']);
+        
+        $response = [
+            'status'   => 200,
+            'body'     => [$_POST['akun_sumber'], $_POST['akun_tujuan']],
+            'messages' => [
+                'success' => 'Ta tambah ji',
+            ]
+        ];
+        
+        // return $this->respond($_POST);
+        return $this->respond($response);
+    }
+
+    public function updateDebitKredit($kirim, $terima, $nominal, $flip = FALSE) {
+        $akun_rekening = new Model_Rekening();
+        $rekening['pengirim'] = $akun_rekening->where('kode_akun', $kirim)->first();
+        $rekening['penerima'] = $akun_rekening->where('kode_akun', $terima)->first();
+        
+        if ($flip) { // Kalo flip true
+            // Pengirim dikurangi kreditnya
+            $akun_rekening->update($kirim, ['kredit'=> $rekening['pengirim']['kredit'] - $nominal ]);
+            // Penerima dikurangi debitnya
+            $akun_rekening->update($terima, ['debit'=> $rekening['penerima']['debit'] - $nominal ]);            
+
+        } else { // Kalo flip salah
+            // Pengirim ditambah kreditnya
+            $akun_rekening->update($kirim, ['kredit'=> $rekening['pengirim']['kredit'] + $nominal ]);
+            // Penerima ditambah debitnya
+            $akun_rekening->update($terima, ['debit'=> $rekening['penerima']['debit'] + $nominal ]);
+        }
+        
+        
+        // return ['wah'=>$rekening['pengirim']['kredit']];
+    }
+
+    public function updateSaldo($kode_akun){
+        $akun_rekening = new Model_Rekening();
+        $rekening = $akun_rekening->where('kode_akun', $kode_akun)->first();
+
+        $akun_rekening->update($kode_akun,[
+            'saldo' => $rekening['debit'] - $rekening['kredit'],
+        ]);
     }
 
 

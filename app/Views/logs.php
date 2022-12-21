@@ -1,7 +1,7 @@
 <div class="container">
     <div class="m-3">
 
-        <form class="">
+        <form class="" id="input-log">
             <div class="row">
 
                 <div class="col-md-6">
@@ -57,7 +57,7 @@
 
             <div class="d-flex justify-content-end">
                 <button class="btn btn-outline-secondary mx-2">Reset</button>
-                <button class="btn btn-success ">Simpan</button>
+                <button type="button" onclick="submitLog()" class="btn btn-success">Simpan</button>
             </div>
 
         </form>
@@ -95,4 +95,30 @@
             responsive: true
         });
     });
+</script>
+
+<script>
+    async function submitLog() {
+        let d = new Date();
+        let form = new FormData();
+        form.append('timestamp', d.getTime());
+        form.append('tanggal_kejadian', $('#tanggal_kejadian').val());
+        form.append('nominal', $('#nominal').val());
+        form.append('keterangan', $('#keterangan').val());
+
+        form.append('akun_sumber', $('#akun_sumber').val());
+        form.append('akun_tujuan', $('#akun_tujuan').val());
+        form.append('akun_hutang', $('#akun_hutang').val());
+
+        await fetch('<?= base_url().'/logs/catat';?>', {
+            method:'post',
+            body: form,
+        }).then(res => {
+            console.log(res.json());
+            // console.log(res);
+            // updateList();
+        }).catch(err => {
+            console.log(err);
+        })
+    }
 </script>
