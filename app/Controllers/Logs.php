@@ -29,7 +29,7 @@ class Logs extends ResourceController{
 
         $db      = \Config\Database::connect();
         $builder = $db->table('daftar_logs');
-        $query = $builder->get(10000, 0);
+        $query = $builder->orderBy('timestamp', 'DESC')->get(10000, 0);
 
         $tobody['list'] =  $query->getResult();
 

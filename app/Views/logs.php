@@ -108,7 +108,7 @@
         $('#tabel-log').DataTable({
             responsive: true,
             autoWidth: true,
-            order : [[0, 'dsc']]
+            // order : [[0, 'dsc']]
         });
     });
 </script>
