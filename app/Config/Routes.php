@@ -41,6 +41,7 @@ $routes->get('/', 'Home::index');
 $routes->group('logs', static function ($routes){
     $routes->get('/', 'Logs::index');
     $routes->get('list', 'Logs::list');
+    $routes->get('listlates/(:num)', 'Logs::listLatest/$1');
     $routes->get('getAkun', 'Logs::getAkun');
     $routes->post('catat', 'Logs::catat');
 });

@@ -1,3 +1,4 @@
+<?php ?>
 <div class="container">
     <div class="m-3">
 
@@ -77,7 +78,20 @@
                     <th>Aksi</th>
                 </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+                <?php foreach ($list as $key => $value) {?>
+                    <tr>
+                        <td><?php echo $value->timestamp?></td>
+                        <td><?php echo $value->tanggal_kejadian?></td>
+                        <td><?php echo $value->keterangan?></td>
+                        <td><?php echo $value->nominal?></td>
+                        <td><?php echo $value->akun_sumber?></td>
+                        <td><?php echo $value->akun_tujuan?></td>
+                        <td><?php echo $value->akun_hutang?></td>
+                        <td></td>
+                    </tr>
+                <?php }?>
+            </tbody>
         </table>
 
     </div>
@@ -92,7 +106,9 @@
 <script>
     $(document).ready( function () {
         $('#tabel-log').DataTable({
-            responsive: true
+            responsive: true,
+            autoWidth: true,
+            order : [[0, 'dsc']]
         });
     });
 </script>
@@ -114,11 +130,34 @@
             method:'post',
             body: form,
         }).then(res => {
-            console.log(res.json());
-            // console.log(res);
-            // updateList();
-        }).catch(err => {
+            return res.json();
+        }).then(x => {
+            console.log(x.body.timestamp)
+            newIn(x.body.timestamp);
+        })
+        .catch(err => {
             console.log(err);
         })
+    }
+
+    async function newIn(timestamp) {        
+        await fetch(`<?= base_url().'/logs/listlates/';?>${timestamp}`)
+        .then(res =>{
+            return res.json();
+        })
+        .then((data) => {
+            console.log(data);
+            $('#tabel-log').DataTable().row
+            .add([
+                [data.timestamp],
+                [data.tanggal_kejadian],
+                [data.keterangan],
+                [data.nominal],
+                [data.akun_sumber],
+                [data.akun_tujuan],
+                [data.akun_hutang],
+                [],]
+            ).draw().node();
+        });
     }
 </script>

@@ -27,6 +27,12 @@ class Logs extends ResourceController{
         $tobody['rekening'] = $akun_rekening->findAll();
         $tobody['hutang'] = $akun_hutang->findAll();
 
+        $db      = \Config\Database::connect();
+        $builder = $db->table('daftar_logs');
+        $query = $builder->get(10000, 0);
+
+        $tobody['list'] =  $query->getResult();
+
         return view('head', $tohead)
         .view('navbar') // no need for dependency here
         .view('logs', $tobody)
@@ -48,9 +54,9 @@ class Logs extends ResourceController{
         return $this->respond($response);
     }
 
-    public function list(){
+    public function listLatest($timestamp){
         $akun_rekening = new Model_Logs();
-        return $this->respond($akun_rekening->findAll());
+        return $this->respond($akun_rekening->where('timestamp', $timestamp)->first());
     }
 
     public function listby(){
@@ -67,7 +73,7 @@ class Logs extends ResourceController{
         
         $response = [
             'status'   => 200,
-            'body'     => [$_POST['akun_sumber'], $_POST['akun_tujuan']],
+            'body'     => $_POST,
             'messages' => [
                 'success' => 'Ta tambah ji',
             ]
