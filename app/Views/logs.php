@@ -88,7 +88,10 @@
                         <td><?php echo $value->akun_sumber?></td>
                         <td><?php echo $value->akun_tujuan?></td>
                         <td><?php echo $value->akun_hutang?></td>
-                        <td></td>
+                        <td class="d-flex">
+                            <button class="btn btn-sm btn-outline-info m-2"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-sm btn-outline-danger m-2"><i class="far fa-trash-alt"></i></button>
+                        </td>
                     </tr>
                 <?php }?>
             </tbody>
