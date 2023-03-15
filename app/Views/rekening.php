@@ -138,7 +138,7 @@
                     <div class="form-group row">
                         <label for="kode_akun_edit" class="col-sm-4 col-form-label">Kode Akun</label>
                         <div class="col-sm">
-                            <input class="form-control" type="text" name="kode_akun_edit" id="kode_akun_edit" readonly>
+                            <input class="form-control" type="text" name="kode_akun_edit" id="kode_akun_edit">
                         </div>
                     </div>
 
@@ -228,7 +228,7 @@
                     <div class="form-group row">
                         <label for="kode_akun_edit_hutang" class="col-sm-4 col-form-label">Kode Akun</label>
                         <div class="col-sm">
-                            <input class="form-control" type="text" name="kode_akun_edit_hutang" id="kode_akun_edit_hutang" readonly>
+                            <input class="form-control" type="text" name="kode_akun_edit_hutang" id="kode_akun_edit_hutang">
                         </div>
                     </div>
 
@@ -272,7 +272,7 @@
                 <td class="number">Rp. ${toIDCurrency(item[i]['kredit'])}</td>
                 <td class="number">Rp. ${toIDCurrency(item[i]['saldo'])}</td>
                 <td class="symbol">
-                    <button class='btn btn-sm btn-outline-info m-2' onclick="toggleEditAkun('${item[i]['kode_akun']}')">
+                    <button class='btn btn-sm btn-outline-info m-2' onclick="toggleEditAkun('${item[i]['uuid']}')">
                         <i class="fas fa-edit"></i>
                     </button>
                 
@@ -296,6 +296,7 @@
     async function addAkun() {
         $('#modal_tambah').modal('toggle')
         let form = new FormData();
+        form.append('uuid', crypto.randomUUID());
         form.append('kode_akun', $('#kode_akun').val());
         form.append('nama_akun', $('#nama_akun').val());
         // form.append('bisa_kirim', Number($('#bisa_kirim').prop('checked')));
@@ -312,27 +313,27 @@
         })
     }
 
-    function toggleEditAkun(kode_akun){
+    function toggleEditAkun(uuid){
         list.forEach(el => {
-            if (el.kode_akun == kode_akun) {
+            if (el.uuid == uuid) {
                 $('#modal_edit').modal('toggle')
                 $('#kode_akun_edit').val(el.kode_akun)
                 $('#nama_akun_edit').val(el.nama_akun)
                 // $('#bisa_kirim_edit').prop('checked', Number(el.bisa_kirim))
                 // $('#bisa_terima_edit').prop('checked', Number(el.bisa_terima))
-                $('#kirim_edit').attr('onclick', `editAkun('${el.kode_akun}')`)
+                $('#kirim_edit').attr('onclick', `editAkun('${el.uuid}')`)
             }
         });        
     }
 
-    async function editAkun(kode_akun) {
+    async function editAkun(uuid) {
         let form = new FormData();
         form.append('kode_akun', $('#kode_akun_edit').val());
         form.append('nama_akun', $('#nama_akun_edit').val());
         // form.append('bisa_kirim', Number($('#bisa_kirim_edit').prop('checked')));
         // form.append('bisa_terima', Number($('#bisa_terima_edit').prop('checked')));
 
-        await fetch(`<?= base_url().'/rekening/edit/';?>${kode_akun}`, {
+        await fetch(`<?= base_url().'/rekening/edit/';?>${uuid}`, {
             method:'post',
             body: form,
         }).then(res => {

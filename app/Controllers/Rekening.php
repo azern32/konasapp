@@ -54,18 +54,18 @@ class Rekening extends ResourceController{
     }
 
 
-    public function edit($kode_akun = null){
+    public function edit($uuid = null){
         $akun_rekening = new Model_Rekening();
-        $data['toEdit'] = $akun_rekening->where('kode_akun', $kode_akun)->first();
+        $data['toEdit'] = $akun_rekening->where('uuid', $uuid)->first();
         $data['req'] = $_POST;
         
-        $akun_rekening->update($kode_akun, $_POST);
+        $akun_rekening->update($uuid, $_POST);
 
         $response = [
             'status'   => 200,
             'body'     => $data,
             'messages' => [
-                'success' => $kode_akun,
+                'success' => $uuid,
             ]
         ];
         return $this->respond($response);

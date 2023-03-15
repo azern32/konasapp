@@ -37,6 +37,7 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
+$routes->addPlaceholder('uuid', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
 
 $routes->group('logs', static function ($routes){
     $routes->get('/', 'Logs::index');
@@ -50,7 +51,7 @@ $routes->group('rekening', static function ($routes){
     $routes->get('/', 'Rekening::view');
     $routes->get('list/(:alphanum)', 'Rekening::list/$1');
     $routes->post('add/(:alphanum)', 'Rekening::add/$1');
-    $routes->post('edit/(:alphanum)', 'Rekening::edit/$1');
+    $routes->post('edit/(:uuid)', 'Rekening::edit/$1');
     $routes->post('edithutang/(:alphanum)', 'Rekening::editHutang/$1');
 });
 
