@@ -11,6 +11,7 @@ use CodeIgniter\HTTP\RequestTrait;
 class Rekening extends ResourceController{
     use RequestTrait;
     use ResponseTrait;
+
     
     public function view(){
         $tohead['dependencies'] = $this->dependency('head');
@@ -56,7 +57,7 @@ class Rekening extends ResourceController{
 
     public function edit($uuid = null){
         $akun_rekening = new Model_Rekening();
-        $data['toEdit'] = $akun_rekening->where('uuid', $uuid)->first();
+        $data['toEdit'] = $akun_rekening->find($uuid);
         $data['req'] = $_POST;
         
         $akun_rekening->update($uuid, $_POST);
@@ -71,26 +72,36 @@ class Rekening extends ResourceController{
         return $this->respond($response);
     }
 
-    public function editHutang($kode_akun = null){
+    public function editHutang($uuid = null){
         $akun_rekening = new Model_Rekening_Hutang();
-        $data['toEdit'] = $akun_rekening->where('kode_akun', $kode_akun)->first();
+        $data['toEdit'] = $akun_rekening->find($uuid);
         $data['req'] = $_POST;
         
-        $akun_rekening->update($kode_akun, $_POST);
+        $akun_rekening->update($uuid, $_POST);
 
         $response = [
             'status'   => 200,
             'body'     => $data,
             'messages' => [
-                'success' => $kode_akun,
+                'success' => $uuid,
             ]
         ];
         return $this->respond($response);
     }
 
 
-    public function remove(){
-        # code...
+    public function remove($tipe, $uuid){
+        if ($tipe == 'akunrekening') {
+            $akun_rekening = new Model_Rekening();
+        }
+        if ($tipe == 'akunhutang') {
+            $akun_rekening = new Model_Rekening_Hutang();
+        }
+
+        $akun_rekening->delete($uuid);
+
+        return $this->respond(['message' => $uuid.' sudah terhapus']);
+
     }
 
     public function activity(){

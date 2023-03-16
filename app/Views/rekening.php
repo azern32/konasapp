@@ -281,7 +281,7 @@
                     </button>
                 </td>
             </tr>`).appendTo('#list_akun tbody')
-            console.log(item[i]);
+            // console.log(item[i]);
         }
     }
 
@@ -337,7 +337,7 @@
             method:'post',
             body: form,
         }).then(res => {
-            console.log(res.json());
+            // console.log(res.json());
             updateList();
         }).catch(err => {
             console.log(err);
@@ -357,7 +357,7 @@
                 <td class="number">Rp. ${toIDCurrency(item[i]['debit'])}</td>
                 <td class="number">Rp. ${toIDCurrency(item[i]['kredit'])}</td>
                 <td class="symbol">
-                    <button class='btn btn-sm btn-outline-info m-2' onclick="toggleEditAkunHutang('${item[i]['kode_akun']}')">
+                    <button class='btn btn-sm btn-outline-info m-2' onclick="toggleEditAkunHutang('${item[i]['uuid']}')">
                         <i class="fas fa-edit"></i>
                     </button>
                 
@@ -366,7 +366,7 @@
                     </button>
                 </td>
             </tr>`).appendTo('#list_akun_hutang tbody')
-            console.log(item[i]);
+            // console.log(item[i]);
         }
     }
 
@@ -382,6 +382,7 @@
     async function addAkunHutang() {
         $('#modal_tambah_hutang').modal('toggle')
         let form = new FormData();
+        form.append('uuid', crypto.randomUUID());
         form.append('kode_akun', $('#kode_akun_hutang').val());
         form.append('nama_akun', $('#nama_akun_hutang').val());
 
@@ -395,24 +396,23 @@
         })
     }
 
-    function toggleEditAkunHutang(kode_akun){
+    function toggleEditAkunHutang(uuid){
         listHutang.forEach(el => {
-            if (el.kode_akun == kode_akun) {
+            if (el.uuid == uuid) {
                 $('#modal_edit_hutang').modal('toggle')
-                $('#kode_akun_edit_hutang_hidden').val(el.kode_akun)
                 $('#kode_akun_edit_hutang').val(el.kode_akun)
                 $('#nama_akun_edit_hutang').val(el.nama_akun)
-                $('#kirim_edit_hutang').attr('onclick', `editAkunHutang('${el.kode_akun}')`)
+                $('#kirim_edit_hutang').attr('onclick', `editAkunHutang('${el.uuid}')`)
             }
         });
     }
 
-    async function editAkunHutang(kode_akun) {
+    async function editAkunHutang(uuid) {
         let form = new FormData();
         form.append('kode_akun', $('#kode_akun_edit_hutang').val());
         form.append('nama_akun', $('#nama_akun_edit_hutang').val());
 
-        await fetch(`<?= base_url().'/rekening/edithutang/';?>${kode_akun}`, {
+        await fetch(`<?= base_url().'/rekening/edithutang/';?>${uuid}`, {
             method:'post',
             body: form,
         }).then(res => {

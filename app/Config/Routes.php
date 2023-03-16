@@ -52,7 +52,8 @@ $routes->group('rekening', static function ($routes){
     $routes->get('list/(:alphanum)', 'Rekening::list/$1');
     $routes->post('add/(:alphanum)', 'Rekening::add/$1');
     $routes->post('edit/(:uuid)', 'Rekening::edit/$1');
-    $routes->post('edithutang/(:alphanum)', 'Rekening::editHutang/$1');
+    $routes->post('edithutang/(:uuid)', 'Rekening::editHutang/$1');
+    $routes->post('remove/(:alpha)/(:uuid)', 'Rekening::remove/$1/$2');
 });
 
 /*
