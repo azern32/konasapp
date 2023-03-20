@@ -101,7 +101,6 @@ class Rekening extends ResourceController{
         $akun_rekening->delete($uuid);
 
         return $this->respond(['message' => $uuid.' sudah terhapus']);
-
     }
 
     public function activity(){

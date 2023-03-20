@@ -258,12 +258,12 @@
         <div class="modal-content">
 
             <div class="modal-body">
-                <p>Anda yakin ingin menghapus <span id="item_to_remove">...</span> dari <span id="kategori_remove">...</span> ?</p>
+                <p>Anda yakin ingin menghapus </br> <strong><span id="item_to_remove">...</span></strong> dari <strong> <span id="kategori_remove">...</span></strong> ?</p>
             </div>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                <button id="" type="button" class="btn btn-primary" onclick="editAkunHutang()">Edit akun</button>
+                <button id="remove_akun" type="button" class="btn btn-danger" onclick="removeAkun()">Hapus akun</button>
             </div>
         </div>
     </div>
@@ -294,7 +294,7 @@
                         <i class="fas fa-edit"></i>
                     </button>
                 
-                    <button class='btn btn-sm btn-danger m-2' onclick="toggleRemoveAkun(${item[i]['uuid']})">
+                    <button class='btn btn-sm btn-danger m-2' onclick="toggleRemoveAkun('${item[i]['uuid']}')">
                         <i class="fas fa-trash-alt"></i> 
                     </button>
                 </td>
@@ -443,6 +443,31 @@
         })
         
         $('#modal_edit_hutang').modal('toggle')
+    }
+
+
+
+
+    function toggleRemoveAkun(uuid) {
+        list.forEach(el => {
+            if (el.uuid == uuid){
+                $('#modal_remove_item').modal('toggle')
+                $('#item_to_remove').text(el.nama_akun)
+                $('#kategori_remove').text('List Akun Rekening')
+                $('#remove_akun').attr('onclick', `removeAkun('${el.uuid}')`)
+            }
+        })
+    }
+
+    async function removeAkun(uuid) {
+        await fetch(`<?= base_url().'/rekening/remove/akunrekening/';?>${uuid}`, {
+            method: 'delete'
+        }).then(res => {
+            console.log(res.json());
+            updateList();
+        })
+
+        $('#modal_remove_item').modal('toggle')
     }
 </script>
 
