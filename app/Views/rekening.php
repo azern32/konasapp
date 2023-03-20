@@ -252,6 +252,24 @@
 </div>
 
 
+<!-- Modal Remove Item -->
+<div class="modal fade" id="modal_remove_item">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <p>Anda yakin ingin menghapus <span id="item_to_remove">...</span> dari <span id="kategori_remove">...</span> ?</p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                <button id="" type="button" class="btn btn-primary" onclick="editAkunHutang()">Edit akun</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <?php 
     foreach ($dependencies as $key => $value) {
         echo "<!--". $key ."-->"."\n"."    <script src='".$value."'></script>";
@@ -276,7 +294,7 @@
                         <i class="fas fa-edit"></i>
                     </button>
                 
-                    <button class='btn btn-sm btn-danger m-2' hidden>
+                    <button class='btn btn-sm btn-danger m-2' onclick="toggleRemoveAkun(${item[i]['uuid']})">
                         <i class="fas fa-trash-alt"></i> 
                     </button>
                 </td>
@@ -347,6 +365,8 @@
     }
 
 
+
+    
     let listHutang = [];
     function updateListAkunHutang(item) {
         $('#list_akun_hutang tbody').empty();
